@@ -20,7 +20,7 @@ export class ProblemeComponent implements OnInit {
     this.problemeForm = this.fb.group({
       prenom: ['', [ZonesValidator.longueurMinimum(3), Validators.required]],
       nom: ['', [ZonesValidator.longueurMinimum(1), ZonesValidator.longueurMaximum(50), Validators.required]],
-      typeProbleme: ['']
+      typeProbleme: ['', Validators.required]
     });
 
     this.types.obtenirTypeProbleme()
