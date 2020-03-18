@@ -45,6 +45,51 @@
                 </div>
                 
               </form>
+
+              <form class="form-horizontal"
+                novalidate
+            
+                [formGroup]="problemeForm">
+                <div class="form-group row">
+                    <label for="nomId" class="col-md-2 col-form-label text-right">Nom:</label>
+                    <div class="col-md-10">
+                        <input class="form-control" 
+                        id="nomId" 
+                        type="text" 
+                        placeholder="Votre nom ici (obligatoire)" 
+                        formControlName="nom" 
+                        [ngClass]="{'is-valid': (problemeForm.get('nom').touched || 
+                        problemeForm.get('nom').dirty) &&
+                        (problemeForm.get('nom').valid),
+                        'is-invalid': (problemeForm.get('nom').touched || 
+                        problemeForm.get('nom').dirty) &&
+                        (!problemeForm.get('nom').valid )}" />
+
+                        <span class="form-text" *ngIf="(problemeForm.get('nom').touched || 
+                            problemeForm.get('nom').dirty) &&
+                            (problemeForm.get('nom').errors)">
+                            <span *ngIf="problemeForm.get('nom').errors.nbreCaracteresInsuffisants">
+                                <small class="text-muted">
+                                    Veuillez entrer plus de caractères.
+                                </small>
+                            </span>
+
+                            <span *ngIf="problemeForm.get('nom').errors.nbreCaracteresExcedentaire">
+                                <small class="text-muted">
+                                    Veuillez entrer moins de caractères.
+                                </small>
+                            </span>
+
+                            <span *ngIf="problemeForm.get('nom').errors.required">
+                                <small class="text-muted">
+                                    Merci de saisir votre nom.
+                                </small>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                
+              </form>
           </div>
         </div>
       </div>
