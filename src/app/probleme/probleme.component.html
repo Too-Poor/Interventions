@@ -7,12 +7,13 @@
         <div class="card-body">
           <h5 class="card-title">Veuillez renseigner les zones suivantes et soumettre votre demande</h5>
           <div class="card-text">
+            
             <form class="form-horizontal"
             novalidate
             
             [formGroup]="problemeForm">
                 <div class="form-group row">
-                    <label for="prenomId" class="col-md-2 col-form-label text-right">Prénom:</label>
+                    <label for="prenomId" class="col-md-2 col-form-label text-right">Prénom :</label>
                     <div class="col-md-10">
                         <input class="form-control" 
                         id="prenomId" 
@@ -43,15 +44,9 @@
                         </span>
                     </div>
                 </div>
-                
-              </form>
 
-              <form class="form-horizontal"
-                novalidate
-            
-                [formGroup]="problemeForm">
                 <div class="form-group row">
-                    <label for="nomId" class="col-md-2 col-form-label text-right">Nom:</label>
+                    <label for="nomId" class="col-md-2 col-form-label text-right">Nom :</label>
                     <div class="col-md-10">
                         <input class="form-control" 
                         id="nomId" 
@@ -88,8 +83,20 @@
                         </span>
                     </div>
                 </div>
-                
+
+                <div class="form-group row">
+                    <label for="nomId" class="col-md-2 col-form-label text-right">Type de problème :</label>
+                    <div class="col-md-10">
+                        <select class="form-control"
+                        id="typeProblemeId"
+                        formControlName="typeProbleme">
+                            <option value="">Sélectionner un type de problème (obligatoire) ...</option>
+                            <option *ngFor="let type of typesProbleme" [value]="type.id">{{type.descriptionTypeProbleme}}</option>
+                        </select>
+                    </div>
+                </div>
               </form>
+
           </div>
         </div>
       </div>
