@@ -29,7 +29,7 @@
                         <span class="form-text" *ngIf="(problemeForm.get('prenom').touched || 
                             problemeForm.get('prenom').dirty) &&
                             (problemeForm.get('prenom').errors)">
-                            <span *ngIf="problemeForm.get('prenom').errors.minlength">
+                            <span *ngIf="problemeForm.get('prenom').errors.nbreCaracteresInsuffisants">
                                 <small class="text-muted">
                                     Veuillez entrer plus de caractères.
                                 </small>
