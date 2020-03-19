@@ -3,6 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProblemeComponent } from './probleme.component';
 import { ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { ZonesValidator } from '../shared/longueur-minimum/longueur-minimum.component';
+import { TypeproblemeService } from './typeprobleme.service';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('ProblemeComponent', () => {
   let component: ProblemeComponent;
@@ -10,8 +12,9 @@ describe('ProblemeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule], 
-      declarations: [ ProblemeComponent ]
+      imports: [ReactiveFormsModule, HttpClientModule], 
+      declarations: [ProblemeComponent],
+      providers: [TypeproblemeService]
     })
     .compileComponents();
   }));
@@ -68,5 +71,34 @@ describe('ProblemeComponent', () => {
     let result = validator(valeurControle as AbstractControl);
 
     expect(result['nbreCaracteresInsuffisants']).toBe(true);
+  });
+
+  it('#15 | Zone TELEPHONE est désactivée quand ne pas me notifier', () => {
+    component.appliquerNotifications(false);
+
+    let zone = component.problemeForm.get('telephone');
+    expect(zone.status).toEqual('DISABLED');
+  });
+
+  
+  it('#16 | Zone TELEPHONE est vide quand ne pas me notifier', () => {
+    component.appliquerNotifications(false);
+
+    let zone = component.problemeForm.get('telephone');
+    expect(zone.value).toBeNull();
+  });
+
+  it('#17 | Zone ADRESSE COURRIEL est désactivée quand ne pas me notifier', () => {
+    component.appliquerNotifications(false);
+
+    let zone = component.problemeForm.get('courrielGroup.courriel');
+    expect(zone.status).toEqual('DISABLED');
+  });
+
+  it('#18 | Zone CONFIRMER COURRIEL est désactivée quand ne pas me notifier', () => {
+    component.appliquerNotifications(false);
+
+    let zone = component.problemeForm.get('courrielGroup.courrielConfirmation');
+    expect(zone.status).toEqual('DISABLED');
   });
 });
