@@ -9,7 +9,7 @@ import { tap, catchError } from 'rxjs/operators';
 })
 export class TypeproblemeService {
 
-  private URLDonnees = "api/typesprobleme";
+  private URLDonnees = "api/typeprobleme";
   constructor(private http: HttpClient) { }
 
   obtenirTypeProbleme(): Observable<ITypeProbleme[]> {

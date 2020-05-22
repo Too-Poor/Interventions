@@ -23,8 +23,8 @@ export class ProblemeComponent implements OnInit {
       nom: ['', [ZonesValidator.longueurMinimum(1), ZonesValidator.longueurMaximum(50), Validators.required]],
       typeProbleme: ['', Validators.required],
       courrielGroup: this.fb.group({
-        courriel: ['', Validators.required],
-        courrielConfirmation: ['', Validators.required]
+        courriel: [{value:'', disabled: true}],
+        courrielConfirmation: [{value:'', disabled: true}]
       }),
       telephone: [{value:'', disabled: true}]
     });
@@ -39,9 +39,12 @@ export class ProblemeComponent implements OnInit {
     const courrielControl = this.problemeForm.get('courrielGroup.courriel');
     const courrielConfirmationControl = this.problemeForm.get('courrielGroup.courrielConfirmation');
     const courrielGroupControl = this.problemeForm.get('courrielGroup');
-    
-    if (typeNotification == 'telephone') {
-      //Vider et désactiver les zones courriel et confirmer courriel.
+
+    //Tout remettre à zéro
+      telephoneControl.clearValidators();
+      telephoneControl.reset();
+      telephoneControl.disable();
+
       courrielControl.clearValidators();
       courrielControl.reset();
       courrielControl.disable();
@@ -50,30 +53,21 @@ export class ProblemeComponent implements OnInit {
       courrielConfirmationControl.reset();
       courrielConfirmationControl.disable();
 
-      telephoneControl.enable();
-
-    } else if (typeNotification == 'courriel') {
-      telephoneControl.clearValidators();
-      telephoneControl.reset();
-      telephoneControl.disable();
-      
+    if (typeNotification === 'courriel') {
+      courrielControl.setValidators([Validators.required, emailMatcherValidator.courrielInvalide()]);
       courrielControl.enable();
+      courrielConfirmationControl.setValidators([Validators.required, emailMatcherValidator.courrielInvalide()]);
       courrielConfirmationControl.enable();
+      courrielGroupControl.setValidators(Validators.compose([emailMatcherValidator.courrielDifferents()]));
 
-    } else {
-      //!courriel && !telephone --> désactiver toutes les zones.
-      telephoneControl.clearValidators();
-      telephoneControl.reset();
-      telephoneControl.disable();
-
-      courrielControl.clearValidators();
-      courrielControl.reset();
-      courrielControl.disable();
-      
-      courrielConfirmationControl.clearValidators();
-      courrielConfirmationControl.reset();
-      courrielConfirmationControl.disable();
-    }
+    } else if (typeNotification === 'telephone') {
+      telephoneControl.setValidators([Validators.required]);
+      telephoneControl.enable();
+    } 
     
+    telephoneControl.updateValueAndValidity();
+    courrielControl.updateValueAndValidity();
+    courrielConfirmationControl.updateValueAndValidity();
+    courrielGroupControl.updateValueAndValidity();
   }
 }
