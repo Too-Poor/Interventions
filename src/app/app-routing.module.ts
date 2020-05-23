@@ -6,9 +6,9 @@ import { ProblemeComponent } from './probleme/probleme.component';
 
 const routes: Routes = [
   {path:'accueil', component:AccueilComponent},
-  {path:'', redirectTo:'accueil', pathMatch:'full'},
   {path:'probleme', component:ProblemeComponent},
-  {path:'', redirectTo:'probleme', pathMatch:'full'},
+  {path:'', redirectTo:'accueil', pathMatch:'full'},
+  //{path:'', redirectTo:'probleme', pathMatch:'full'},
   {path:'**', redirectTo:'accueil', pathMatch:'full'} //Si la route n'existe pas.
 ];
 
