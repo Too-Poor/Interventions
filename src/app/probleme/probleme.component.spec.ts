@@ -151,7 +151,7 @@ describe('ProblemeComponent', () => {
     let zone = component.problemeForm.get('courrielGroup.courriel');
     zone.setValue('a');
     errors = zone.errors || {};
-    expect(errors['courrielInvalide']).toBeTruthy();
+    expect(errors['pattern']).toBeTruthy();
   });
 
   it('#25 | Zone ADRESSE COURRIEL sans valeur et Zone CONFIRMER COURRIEL avec valeur valide retourne null', () => {
