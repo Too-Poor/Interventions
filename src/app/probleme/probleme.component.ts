@@ -36,7 +36,7 @@ export class ProblemeComponent implements OnInit {
       telephone: [{value:'', disabled: true}],
       descriptionProbleme: ['', [Validators.required, Validators.minLength(5)]],
       noUnite: [''],
-      dateProbleme: [{value: Date(), disabled: true}]
+      dateProbleme: [new Date()]
     });
 
     this.types.obtenirTypeProbleme()
@@ -88,7 +88,7 @@ export class ProblemeComponent implements OnInit {
     if (this.problemeForm.dirty && this.problemeForm.valid) {
          this.probleme = this.problemeForm.value;
          // Affecter les valeurs qui proviennent du fg le plus interne.
-         this.probleme.courriel=  this.problemeForm.get('courrielGroup.courriel').value;
+         this.probleme.courriel = this.problemeForm.get('courrielGroup.courriel').value;
          this.probleme.courrielConfirmation =  this.problemeForm.get('courrielGroup.courrielConfirmation').value;      
         this.problemeService.saveProbleme(this.probleme)
             .subscribe( // on s'abonne car on a un retour du serveur à un moment donné avec la callback fonction
