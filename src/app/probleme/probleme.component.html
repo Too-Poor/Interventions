@@ -5,12 +5,15 @@
           <h5>Déclarer un problème</h5>
         </div>
         <div class="card-body">
+            <div class="alert alert-info" role="alert" *ngIf="messageSauvegarde">
+                {{messageSauvegarde}}
+            </div>
           <h5 class="card-title">Veuillez renseigner les zones suivantes et soumettre votre demande</h5>
           <div class="card-text">
             
             <form class="form-horizontal"
             novalidate
-            
+            (ngSubmit)="save()"
             [formGroup]="problemeForm">
                 <div class="form-group row">
                     <label for="prenomId" class="col-md-2 col-form-label text-right">Prénom :</label>
@@ -89,21 +92,21 @@
                     <div class="col-sm-10">
                         <select class="form-control"
                         id="typeProblemeId"
-                        formControlName="typeProbleme"
-                        [ngClass]="{'is-valid': (problemeForm.get('typeProbleme').touched || 
-                        problemeForm.get('typeProbleme').dirty) &&
-                        (problemeForm.get('typeProbleme').valid),
-                        'is-invalid': (problemeForm.get('typeProbleme').touched || 
-                        problemeForm.get('typeProbleme').dirty) &&
-                        (!problemeForm.get('typeProbleme').valid )}" >
+                        formControlName="noTypeProbleme"
+                        [ngClass]="{'is-valid': (problemeForm.get('noTypeProbleme').touched || 
+                        problemeForm.get('noTypeProbleme').dirty) &&
+                        (problemeForm.get('noTypeProbleme').valid),
+                        'is-invalid': (problemeForm.get('noTypeProbleme').touched || 
+                        problemeForm.get('noTypeProbleme').dirty) &&
+                        (!problemeForm.get('noTypeProbleme').valid )}" >
                             <option value="">Sélectionner un type de problème (obligatoire) ...</option>
                             <option *ngFor="let type of typesProbleme" [value]="type.id">{{type.descriptionTypeProbleme}}</option>
                         </select>
 
-                        <span class="form-text" *ngIf="(problemeForm.get('typeProbleme').touched || 
-                            problemeForm.get('typeProbleme').dirty) &&
-                            (problemeForm.get('typeProbleme').errors)">
-                            <span *ngIf="problemeForm.get('typeProbleme').errors.required">
+                        <span class="form-text" *ngIf="(problemeForm.get('noTypeProbleme').touched || 
+                            problemeForm.get('noTypeProbleme').dirty) &&
+                            (problemeForm.get('noTypeProbleme').errors)">
+                            <span *ngIf="problemeForm.get('noTypeProbleme').errors.required">
                                 <small class="text-muted">
                                     Merci de sélectionner un type de problème.
                                 </small>

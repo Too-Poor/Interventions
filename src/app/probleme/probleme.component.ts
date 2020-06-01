@@ -4,6 +4,8 @@ import { ZonesValidator } from '../shared/longueur-minimum/longueur-minimum.comp
 import { emailMatcherValidator } from '../shared/email-matcher/email-matcher.component';
 import { ITypeProbleme } from './typeprobleme';
 import { TypeproblemeService } from './typeprobleme.service';
+import { IProbleme } from './probleme';
+import { ProblemeService } from './probleme.service';
 
 @Component({
   selector: 'Inter-probleme',
@@ -15,13 +17,17 @@ export class ProblemeComponent implements OnInit {
   problemeForm: FormGroup;
   typesProbleme: ITypeProbleme[];
   errorMessage: string;
-  constructor(private fb: FormBuilder, private types: TypeproblemeService) { }
+
+  probleme: IProbleme;
+  messageSauvegarde: string;
+
+  constructor(private fb: FormBuilder, private types: TypeproblemeService, private problemeService: ProblemeService) { }
 
   ngOnInit(): void {
     this.problemeForm = this.fb.group({
       prenom: ['', [ZonesValidator.longueurMinimum(3), Validators.required]],
       nom: ['', [ZonesValidator.longueurMinimum(1), ZonesValidator.longueurMaximum(50), Validators.required]],
-      typeProbleme: ['', Validators.required],
+      noTypeProbleme: ['', Validators.required],
       notification:['aucun'],
       courrielGroup: this.fb.group({
         courriel: [{value:'', disabled: true}],
@@ -76,5 +82,24 @@ export class ProblemeComponent implements OnInit {
     courrielControl.updateValueAndValidity();
     courrielConfirmationControl.updateValueAndValidity();
     courrielGroupControl.updateValueAndValidity();
+  }
+
+  save(): void {
+    if (this.problemeForm.dirty && this.problemeForm.valid) {
+         this.probleme = this.problemeForm.value;
+         // Affecter les valeurs qui proviennent du fg le plus interne.
+         this.probleme.courriel=  this.problemeForm.get('courrielGroup.courriel').value;
+         this.probleme.courrielConfirmation =  this.problemeForm.get('courrielGroup.courrielConfirmation').value;      
+        this.problemeService.saveProbleme(this.probleme)
+            .subscribe( // on s'abonne car on a un retour du serveur à un moment donné avec la callback fonction
+                () => this.onSaveComplete(),  // Fonction callback
+                (error: any) => this.errorMessage = <any>error
+            );
+    } 
+  }
+  
+  onSaveComplete(): void {
+    this.problemeForm.reset();  // Pour remettre Dirty à false.  Autrement le Route Guard va dire que le formulaire n'est pas sauvegardé
+    this.messageSauvegarde = 'Votre demande a bien été sauvegardée.  Nous vous remercions.';
   }
 }

@@ -1,22 +1,29 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { ITypeProbleme } from './typeprobleme';
+import { IProbleme } from './probleme';
 import { Observable, throwError } from 'rxjs';
-import { tap, catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TypeproblemeService {
 
-  private baseUrl = "https://interventionssd.azurewebsites.net/api/intervention";
-  constructor(private http: HttpClient) { }
+  export class ProblemeService {
 
-  obtenirTypeProbleme(): Observable<ITypeProbleme[]> {
-    return this.http.get<ITypeProbleme[]>(this.baseUrl).pipe(
-        tap(data => console.log('obtenirTypeProbleme: ' + JSON.stringify(data))),
+    private baseUrl = 'https://interventionssd.azurewebsites.net/api/intervention';
+
+    constructor(private _http: HttpClient) { }
+
+    saveProbleme(probleme: IProbleme): Observable<IProbleme> {
+      return this.createProbleme(probleme);
+  }
+
+  private createProbleme(probleme: IProbleme): Observable<IProbleme> {
+    probleme.id = undefined;
+    return this._http.post<IProbleme>(this.baseUrl, probleme).pipe(
+        tap(data => console.log('createProbleme: ' + JSON.stringify(data))),
         catchError(this.handleError)
-        );
+    );
   }
 
   private handleError(err: HttpErrorResponse) {
